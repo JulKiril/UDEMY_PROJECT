@@ -146,4 +146,62 @@ const modal = document.querySelector('.modal'),
             }
       }
       window.addEventListener('scroll', showModalByScroll);
-});
+
+      ////////////CLASSES FOR MENU_ITEMS////////////////
+
+ 
+
+      class MenuItem {
+          constructor(img, imgDescr, subtitle,descr,price,parentSelector){
+              this.img = img;
+              this.imgDescr = imgDescr;
+              this.subtitle = subtitle;
+              this.desr = descr;
+              this.price = price;
+              this.transfer = 27;
+              this.parent = document.querySelector(parentSelector);
+              this.changeToUAH();
+          }
+
+          changeToUAH(){
+              this.price = +this.price * this.transfer;
+          }
+
+          renderMenuItem(){              
+              const menuItem = document.createElement('div');
+              menuItem.classList.add('menu__item');
+              menuItem.innerHTML = `<img src=${this.img} alt="${this.imgDescr}">
+              <h3 class="menu__item-subtitle">Меню "${this.subtitle}"</h3>
+              <div class="menu__item-descr">${this.desr}</div>
+              <div class="menu__item-divider"></div>
+              <div class="menu__item-price">
+                  <div class="menu__item-cost">Цена:</div>
+                  <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+              </div>`;
+                this.parent.append(menuItem);
+          }
+      }
+
+      new MenuItem(
+          'img/tabs/vegy.jpg', 
+          'vegy', 
+          'Меню "Фитнес"',
+          'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 
+          9, 
+          '.menu .container').renderMenuItem();
+       
+
+      new MenuItem(
+          'img/tabs/elite.jpg',
+          'elite','Меню “Премиум”',
+          'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+          '10',
+          '.menu .container').renderMenuItem();
+
+      new MenuItem(
+          'img/tabs/post.jpg',
+           'post', 'Меню "Постное"',
+           'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.', 
+           '11', 
+           '.menu .container').renderMenuItem();
+    });
