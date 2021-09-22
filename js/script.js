@@ -287,4 +287,7 @@ const modal = document.querySelector('.modal'),
                 hideModal();
             },4000);
         }
+
+        fetch('http://localhost:3000/menu').then(data=>data.json())
+        .then(data=> console.log(data));
     });
