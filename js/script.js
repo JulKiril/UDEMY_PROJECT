@@ -187,31 +187,21 @@ const modal = document.querySelector('.modal'),
           }
       }
 
-      new MenuItem(
-          'img/tabs/vegy.jpg', 
-          'vegy', 
-          'Меню "Фитнес"',
-          'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 
-          9, 
-          '.menu .container',
-          'menu__item').renderMenuItem();
-       
+      const getResourse = async (url)=>{
+        const res = await fetch(url);
+            if(!res.ok){
+                throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+            }
+        return await res.json();        
+    };
 
-      new MenuItem(
-          'img/tabs/elite.jpg',
-          'elite','Меню “Премиум”',
-          'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-          '10',
-          '.menu .container',
-          'menu__item').renderMenuItem();
+        getResourse('http://localhost:3000/menu')
+        .then((data)=>{
+            data.forEach(({img,altimg,title,descr,price}) => {
+                new MenuItem(img,altimg,title,descr,price,'.menu .container').renderMenuItem();
+            });
+        });
 
-      new MenuItem(
-          'img/tabs/post.jpg',
-           'post', 'Меню "Постное"',
-           'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.', 
-           '11', 
-           '.menu .container',
-           'menu__item').renderMenuItem();
 
         /////////POST FORMS DATA//////
         const forms = document.querySelectorAll('form');
@@ -223,10 +213,20 @@ const modal = document.querySelector('.modal'),
         };
 
         forms.forEach(form =>{
-            postData(form);
+            bindPostData(form);
         });
 
-        function postData(form){
+        const postData = async (url, data)=>{
+            const res = await fetch(url, {
+                method: 'POST',
+                    body: data,
+                    headers:{ 
+                        'Content-type' : 'application/json'}
+            });
+            return await res.json();
+        };
+
+        function bindPostData(form){
             form.addEventListener('submit',(e)=>{
                 e.preventDefault();
 
@@ -240,24 +240,20 @@ const modal = document.querySelector('.modal'),
 
 
                 const formData = new FormData(form);
-                const obj = {};
-                formData.forEach((value,key) =>{
-                    obj[key] = value;
-                });
+                // const obj = {};
+                // formData.forEach((value,key) =>{
+                //     obj[key] = value;
+                // });    
                 
+                const json = JSON.stringify(Object.fromEntries(formData.entries()));
              
-                fetch('server.php', {
-                    method: 'POST',
-                    body: JSON.stringify(obj),
-                    headers:{ 
-                        'Content-type' : 'application/json'}
-                })
-                .then(data=>data.text())
+
+                postData('http://localhost:3000/requests',json)
                 .then((data)=>{
                     console.log(data);
                     showThanksModal(message.sucsess);
                     statusMessage.remove();
-                }).catch(()=>{
+                }).catch((data)=>{
                     showThanksModal(message.failure);
                 }).finally(()=>{
                     form.reset();
@@ -288,6 +284,6 @@ const modal = document.querySelector('.modal'),
             },4000);
         }
 
-        fetch('http://localhost:3000/menu').then(data=>data.json())
-        .then(data=> console.log(data));
+        // fetch('http://localhost:3000/menu').then(data=>data.json())
+        // .then(data=> console.log(data));
     });
