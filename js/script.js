@@ -195,13 +195,19 @@ const modal = document.querySelector('.modal'),
         return await res.json();        
     };
 
-        getResourse('http://localhost:3000/menu')
-        .then((data)=>{
-            data.forEach(({img,altimg,title,descr,price}) => {
-                new MenuItem(img,altimg,title,descr,price,'.menu .container').renderMenuItem();
-            });
-        });
+        // getResourse('http://localhost:3000/menu')
+        // .then((data)=>{
+            // data.forEach(({img,altimg,title,descr,price}) => {
+            //     new MenuItem(img,altimg,title,descr,price,'.menu .container').renderMenuItem();
+            // });
+        // });
 
+        axios.get('http://localhost:3000/menu')
+            .then(obj=>{
+                obj.data.forEach(({img,altimg,title,descr,price}) => {
+                    new MenuItem(img,altimg,title,descr,price,'.menu .container').renderMenuItem();
+                }); 
+            });
 
         /////////POST FORMS DATA//////
         const forms = document.querySelectorAll('form');
@@ -286,4 +292,49 @@ const modal = document.querySelector('.modal'),
 
         // fetch('http://localhost:3000/menu').then(data=>data.json())
         // .then(data=> console.log(data));
+
+        //////////////////////SLIDER//////////////////////////////////
+
+        const slides = document.querySelectorAll('.offer__slide'),
+              prev = document.querySelector('.offer__slider-prev'),
+              next = document.querySelector('.offer__slider-next');
+        let  slideIndex = 1,
+             total = document.querySelector('#total'),
+             current = document.querySelector('#current');
+
+        showSlides(slideIndex);
+
+        // current.textContent = `0${slideIndex}`;
+        if(slides.length < 10){
+            total.textContent = `0${slides.length}`;
+        } else{
+            total.textContent = slides.length;
+        }
+
+        function showSlides(n){
+            if(n>slides.length){
+                slideIndex = 1;
+            }
+            if(n<1){
+                slideIndex = slides.length;
+            }
+            slides.forEach(item=>{
+                item.classList.add('hide');                
+            });
+            slides[slideIndex-1].classList.remove('hide');
+
+            if(slides.length < 10){
+                current.textContent = `0${slideIndex}`;
+            } else{
+                current.textContent = slideIndex;
+            }
+        }
+
+        function plusSlides(n){
+            showSlides(slideIndex += n);
+        }
+
+        prev.addEventListener('click', ()=>plusSlides(-1));
+        next.addEventListener('click', ()=>plusSlides(1));
+
     });
