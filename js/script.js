@@ -318,6 +318,10 @@ const modal = document.querySelector('.modal'),
                 slidesField.style.transform = `translateX(-${offset}px)`;
              }
 
+             function replaceToNum(str){
+               return +str.replace(/\D/g, '');
+             }
+
              slidesField.style.width = 100 * slides.length + '%';
              slidesField.style.display = 'flex';
              slidesField.style.transition = '0.5s all';
@@ -356,10 +360,10 @@ const modal = document.querySelector('.modal'),
         }
              
         next.addEventListener('click', ()=>{
-                if(offset == +width.slice(0, width.length - 2) * (slides.length - 1)){
+                if(offset == replaceToNum(width) * (slides.length - 1)){
                     offset = 0;
                 } else{
-                    offset += +width.slice(0, width.length - 2);
+                    offset += replaceToNum(width);
                 }
                 moveSlides();
                 if(slideIndex == slides.length){
@@ -374,9 +378,9 @@ const modal = document.querySelector('.modal'),
 
              prev.addEventListener('click', ()=>{
                 if(offset == 0){
-                    offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+                    offset = replaceToNum(width) * (slides.length - 1);
                 } else{
-                    offset -= +width.slice(0, width.length - 2);
+                    offset -=replaceToNum(width);
                 }
                 moveSlides();
                 if(slideIndex == 1){
@@ -395,7 +399,7 @@ const modal = document.querySelector('.modal'),
                     slideIndex = slideTo;
                     dotsArray.forEach(dot=>dot.style.opacity = '0.5');
                     dotsArray[slideIndex - 1].style.opacity = '1';
-                    offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+                    offset = replaceToNum(width) * (slideTo - 1);
                     moveSlides();
                     renderSlidesCounter();
                 });
