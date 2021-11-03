@@ -1,4 +1,6 @@
-function forms() {
+import {showModal, hideModal} from './modal';
+
+function forms(timeoutId) {
 
     /////////POST FORMS DATA//////
     const forms = document.querySelectorAll('form');
@@ -63,7 +65,7 @@ function forms() {
         const prevModalDilog = document.querySelector('.modal__dialog');
         prevModalDilog.classList.add('hide');
 
-        showModal();
+        showModal('.modal',timeoutId);
         const thanksModal = document.createElement('div');
         thanksModal.classList.add('modal__dialog');
         thanksModal.innerHTML = `
@@ -78,7 +80,7 @@ function forms() {
             thanksModal.remove();
             prevModalDilog.classList.add('show');
             prevModalDilog.classList.remove('hide');
-            hideModal();
+            hideModal('.modal');
         }, 4000);
     }
 
@@ -86,4 +88,4 @@ function forms() {
     // .then(data=> console.log(data));
 }
 
-module.exports = forms;
+export default forms;
