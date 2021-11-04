@@ -1,17 +1,17 @@
-function slider() {
+function slider({container,slide,nextArrow, prevArrow, wrapper,totalCounter, currentCounter, viewField}) {
     //////////////////////SLIDER//////////////////////////////////
 
-    const slider = document.querySelector('.offer__slider'),
-        slides = document.querySelectorAll('.offer__slide'),
-        prev = document.querySelector('.offer__slider-prev'),
-        next = document.querySelector('.offer__slider-next'),
-        slidesWrapper = document.querySelector('.offer__slider-wrapper'),
-        slidesField = document.querySelector('.offer__slider-inner'),
+    const slider = document.querySelector(container),
+        slides = document.querySelectorAll(slide),
+        prev = document.querySelector(prevArrow),
+        next = document.querySelector(nextArrow),
+        slidesWrapper = document.querySelector(wrapper),
+        slidesField = document.querySelector(viewField),
         width = window.getComputedStyle(slidesWrapper).width;
 
     let slideIndex = 1,
-        total = document.querySelector('#total'),
-        current = document.querySelector('#current');
+        total = document.querySelector(totalCounter),
+        current = document.querySelector(currentCounter);
 
     function renderSlidesCounter() {
         if (slides.length < 10) {

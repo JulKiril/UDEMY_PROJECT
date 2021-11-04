@@ -1,9 +1,10 @@
 import {showModal, hideModal} from './modal';
+import{postData} from '../services/services';
 
-function forms(timeoutId) {
+function forms(formSelector, timeoutId) {
 
     /////////POST FORMS DATA//////
-    const forms = document.querySelectorAll('form');
+    const forms = document.querySelectorAll(formSelector);
 
     const message = {
         loading: 'img/form/spinner.svg',
@@ -15,16 +16,7 @@ function forms(timeoutId) {
         bindPostData(form);
     });
 
-    const postData = async (url, data) => {
-        const res = await fetch(url, {
-            method: 'POST',
-            body: data,
-            headers: {
-                'Content-type': 'application/json'
-            }
-        });
-        return await res.json();
-    };
+
 
     function bindPostData(form) {
         form.addEventListener('submit', (e) => {
@@ -65,7 +57,7 @@ function forms(timeoutId) {
         const prevModalDilog = document.querySelector('.modal__dialog');
         prevModalDilog.classList.add('hide');
 
-        showModal('.modal',timeoutId);
+        showModal('.modal', timeoutId);
         const thanksModal = document.createElement('div');
         thanksModal.classList.add('modal__dialog');
         thanksModal.innerHTML = `

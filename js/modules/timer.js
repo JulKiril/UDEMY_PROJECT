@@ -1,7 +1,5 @@
-function timer() {
+function timer(id,deadline) {
     ///////////////////////////TIMER///////////////////////////////////
-
-    const deadline = '2021-11-16';
 
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -54,7 +52,7 @@ function timer() {
         }
     }
 
-    setClock('.timer', deadline);
+    setClock(id, deadline);
 
 }
 

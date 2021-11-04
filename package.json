@@ -16,9 +16,22 @@
     "url": "https://github.com/JulKiril/UDEMY_PROJECT/issues"
   },
   "homepage": "https://github.com/JulKiril/UDEMY_PROJECT#readme",
+  "broserslist": [
+    "> 1%",
+    "not dead"
+  ],
   "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "babel-loader": "^8.2.3",
+    "core-js": "^3.19.1",
     "json-server": "^0.16.3",
     "webpack": "^5.61.0",
     "webpack-cli": "^4.9.1"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "nodelist-foreach-polyfill": "^1.2.0"
   }
 }
